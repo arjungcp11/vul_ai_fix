@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('git repo & clean') {
             steps {
-               bat "rmdir  /s /q vulanfixissue"
+               //bat "rmdir  /s /q vulanfixissue"
                 bat "git clone https://github.com/arjungcp11/vul_ai_fix.git"
                 bat "mvn clean -f vulanfixissue"
             }
