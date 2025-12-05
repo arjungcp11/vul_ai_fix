@@ -1,4 +1,4 @@
-package com.example.vulfixed.ai;
+package com.hexaware.vulfixed.ai;
 
 public interface AIClient {
     /**

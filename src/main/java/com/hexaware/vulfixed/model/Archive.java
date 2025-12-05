@@ -1,4 +1,4 @@
-package com.example.vulfixed.model;
+package com.hexaware.vulfixed.model;
 
 import jakarta.persistence.*;
 import java.time.Instant;

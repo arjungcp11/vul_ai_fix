@@ -1,10 +1,16 @@
-package com.example.vulfixed.controller;
+package com.hexaware.vulfixed.controller;
 
-import com.example.vulfixed.service.VulnFixService;
-import com.example.vulfixed.service.dto.FixRequest;
-import com.example.vulfixed.service.dto.FixResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hexaware.vulfixed.service.VulnFixService;
+import com.hexaware.vulfixed.service.dto.FixRequest;
+import com.hexaware.vulfixed.service.dto.FixResponse;
 
 @RestController
 @RequestMapping("/api")

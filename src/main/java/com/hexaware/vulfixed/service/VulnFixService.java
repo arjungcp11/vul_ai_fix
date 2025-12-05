@@ -1,10 +1,15 @@
-package com.example.vulfixed.service;
+package com.hexaware.vulfixed.service;
 
-import com.example.vulfixed.ai.AIClient;
-import com.example.vulfixed.model.Archive;
-import com.example.vulfixed.repository.ArchiveRepository;
-import com.example.vulfixed.service.dto.FixRequest;
-import com.example.vulfixed.service.dto.FixResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -13,10 +18,12 @@ import org.eclipse.jgit.api.Git;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.*;
-import java.nio.file.*;
-import java.time.Instant;
-import java.util.*;
+import com.hexaware.vulfixed.ai.AIClient;
+import com.hexaware.vulfixed.model.Archive;
+import com.hexaware.vulfixed.repository.ArchiveRepository;
+import com.hexaware.vulfixed.service.dto.FixRequest;
+import com.hexaware.vulfixed.service.dto.FixResponse;
+
 
 @Service
 public class VulnFixService {
@@ -34,11 +41,13 @@ public class VulnFixService {
         String gitUrl = request.getGitUrl();
         String branch = request.getBranch() == null ? "main" : request.getBranch();
         Path tmp = Files.createTempDirectory("clone-");
-        try (Git git = Git.cloneRepository()
-                .setURI(gitUrl)
-                .setDirectory(tmp.toFile())
-                .setBranch(branch)
-                .call()) {
+        Git git = null;
+        try {
+            git = Git.cloneRepository()
+                    .setURI(gitUrl)
+                    .setDirectory(tmp.toFile())
+                    .setBranch(branch)
+                    .call();
 
             List<Path> javaFiles = new ArrayList<>();
             Files.walk(tmp)
@@ -48,7 +57,7 @@ public class VulnFixService {
             Archive archive = new Archive();
             archive.setGitUrl(gitUrl);
             archive.setCreatedAt(Instant.now());
-            List&lt;Archive.FileDiff&gt; diffs = new ArrayList<>();
+            List<Archive.FileDiff> diffs = new ArrayList<>();
 
             for (Path p : javaFiles) {
                 String original = Files.readString(p);
@@ -66,10 +75,15 @@ public class VulnFixService {
             archiveRepository.save(archive);
 
             return new FixResponse(archive.getId(), "Processed " + javaFiles.size() + " java files");
-
         } finally {
+            if (git != null) {
+                git.close();
+            }
             // cleanup
-            try { Files.walk(tmp).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete); } catch(Exception ignored){}
+            try {
+                Files.walk(tmp).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+            } catch (Exception ignored) {
+            }
         }
     }
 

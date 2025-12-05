@@ -1,4 +1,4 @@
-package com.example.vulfixed.service.dto;
+package com.hexaware.vulfixed.service.dto;
 
 public class FixResponse {
     private Long archiveId;

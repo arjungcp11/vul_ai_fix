@@ -1,10 +1,11 @@
-package com.example.vulfixed.config;
+package com.hexaware.vulfixed.config;
 
-import com.example.vulfixed.ai.AIClient;
-import com.example.vulfixed.ai.MockAIClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.hexaware.vulfixed.ai.AIClient;
+import com.hexaware.vulfixed.ai.MockAIClient;
 
 @Configuration
 public class AIConfig {
