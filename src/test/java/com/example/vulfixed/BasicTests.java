@@ -1,13 +1,10 @@
-package com.aivulfix;
+package com.example.vulfixed;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class VulanfixissueApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+class BasicTests {
+    @Test
+    void contextLoads() {}
 }
