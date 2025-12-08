@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent{
+        label 'Docker_Container'
+    }
 
     tools {
         maven 'M3'
@@ -7,9 +9,9 @@ pipeline {
     }
 
     stages {
-        stage('clean') {
+        stage('A') {
             steps {
-                bat 'mvn clean'
+                git branch: 'main', credentialsId: 'ar', url: 'https://github.com/arjungcp11/vul_ai_fix.git'
             }
         }
 
