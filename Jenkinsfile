@@ -7,28 +7,27 @@ pipeline {
     }
 
     stages {
-        stage('git repo & clean') {
+        stage('clean') {
             steps {
-                bat 'git clone https://github.com/arjungcp11/vul_ai_fix.git'
-                bat 'mvn clean -f vul_ai_fix/pom.xml'
+                bat 'mvn clean'
             }
         }
 
         stage('install') {
             steps {
-                bat 'mvn install -f vul_ai_fix/pom.xml'
+                bat 'mvn install'
             }
         }
 
         stage('test') {
             steps {
-                bat 'mvn test -f vul_ai_fix/pom.xml'
+                bat 'mvn test'
             }
         }
 
         stage('package') {
             steps {
-                bat 'mvn package -f vul_ai_fix/pom.xml'
+                bat 'mvn package'
             }
         }
     }
